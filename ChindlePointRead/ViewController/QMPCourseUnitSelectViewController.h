@@ -10,6 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface QMPCourseUnitSelectViewController : UIViewController
+
+-(instancetype)initWithOrientations:(BOOL)isOrientation;
+
 @property(nonatomic,strong)QMPBookModel *bookModel;
 @end
 

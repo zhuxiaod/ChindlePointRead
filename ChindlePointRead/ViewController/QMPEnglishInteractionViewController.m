@@ -18,24 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-#ifdef DEBUG
-
-    NSLog(@"DEBUG");
-    
-#elif DEBUGTEST
-
-    NSLog(@"DEBUGTEST");
-
-#elif DEBUGFORMAL
-
-    NSLog(@"DEBUGFORMAL");
-
-#else
-
-    NSLog(@"AppStore");
-
-#endif
-    
     self.fd_interactivePopDisabled = YES;
     
     self.fd_prefersNavigationBarHidden = YES;

@@ -11,9 +11,21 @@
 
 @interface QMPCourseUnitSelectViewController ()
 @property(nonatomic,strong)QMPCourseUnitSelectView *courseUnitSelectView;
+
+@property(nonatomic,assign)BOOL isOrientation;
+
 @end
 
 @implementation QMPCourseUnitSelectViewController
+
+-(instancetype)initWithOrientations:(BOOL)isOrientation{
+    
+    QMPCourseUnitSelectViewController *vc = [[QMPCourseUnitSelectViewController alloc] init];
+    
+    vc.isOrientation = isOrientation;
+    
+    return vc;
+}
 
 - (QMPCourseUnitSelectView *)courseUnitSelectView{
     if(_courseUnitSelectView == nil){
@@ -25,9 +37,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupCourseUnitSelectView];
+    self.fd_interactivePopDisabled = YES;
     
-    [self setupBackBtn];
+    self.fd_prefersNavigationBarHidden = YES;
+    
+    if(self.isOrientation == YES) {
+
+        [self setupInterfaceOrientations];
+        
+    }else{
+        
+        [self setupCourseUnitSelectView];
+        
+        [self setupBackBtn];
+        
+    }
+    
+}
+
+#pragma mark - 设置横屏
+-(void)setupInterfaceOrientations{
+
+    [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:true viewController:self];
     
 }
 
@@ -38,13 +69,17 @@
     [QMPRequestManager getUnitListRequest:bookModel.bookId success:^(NSArray * _Nonnull unitList) {
         weakSelf.courseUnitSelectView.unitModelList = unitList;
         weakSelf.courseUnitSelectView.bookName = bookModel.name;
+        
+        //请求第一个
+        if(unitList != 0){
+            [weakSelf loadLessonListData:unitList[0]];
+        }
     }];
     
 }
 
 -(void)setupCourseUnitSelectView{
-    self.fd_interactivePopDisabled = YES;
-    self.fd_prefersNavigationBarHidden = YES;
+
 
     [self.view addSubview:self.courseUnitSelectView];
     
@@ -87,6 +122,11 @@
     
     [self.navigationController popViewControllerAnimated:YES];
     
+    
+    if(self.isOrientation == YES){
+        
+        [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:NO viewController:self];
+    }
 }
 
 
@@ -94,16 +134,23 @@
 -(void)jumpToInteractionDetailViewController:(QMPLessonModel *)lessonModel{
     if(lessonModel == nil)return;
     
-    QMPInteractionDetailViewController *vc = [[QMPInteractionDetailViewController alloc] init];
-    vc.lessonModel = lessonModel;
+    QMPInteractionDetailViewController *vc = [[QMPInteractionDetailViewController alloc] initWithOrientations:NO lessonModel:lessonModel isEnterMain:NO];
     [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 #pragma mark - 请求课程数据
 -(void)loadLessonListData:(QMPUnitModel *)unitModel{
+    
     WeakifySelf();
     [QMPRequestManager getLessonListRequest:unitModel.unitId success:^(NSArray * _Nonnull unitList) {
+        
         //设置课程
+        if(unitList.count > 4){
+            weakSelf.courseUnitSelectView.lessonModelList = [unitList subarrayWithRange:NSMakeRange(0, 4)];
+            return;
+        }
+        
         weakSelf.courseUnitSelectView.lessonModelList = unitList;
     }];
 }
@@ -137,6 +184,14 @@
         
     }else{
         NSLog(@"横屏");
+        
+        [self setupCourseUnitSelectView];
+        
+        [self setupBackBtn];
+        
+//        [self.view layoutIfNeeded];
     }
 }
+
+
 @end

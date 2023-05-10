@@ -31,19 +31,23 @@
 }
 
 - (CGFloat)bookViewOldW{
-    
+    NSLog(@"bookViewOldW:%lf",tesAuto(550));
     return tesAuto(550);
 }
 
 - (CGFloat)bookViewH{
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        NSLog(@"ts:%lf", tScreenWidth());
+        NSLog(@"ks:%lf", kScreenWidth);
         return kScreenWidth - tesAuto(68);
     }
     return tesAuto(310);
 }
 
 - (CGFloat)bookViewW{
-    
+//    702.548726 306.139430 395.982009
+    //576.400000 321.736000 324.880000
+    NSLog(@"%f %f %f",self.bookViewOldW,self.bookViewH,self.bookViewOldH);
     return self.bookViewOldW * self.bookViewH / self.bookViewOldH;
 }
 
@@ -181,6 +185,9 @@
         }];
         
     }
+    //518.359772 292.166417
+    //544.677419 307.000000
+    NSLog(@"%f %f",self.bookViewW, self.bookViewH);
     
     [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(contentView).offset(tesAuto(10));

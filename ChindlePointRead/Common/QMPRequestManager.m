@@ -25,7 +25,7 @@
     dispatch_once(&onceToken, ^{
         manager = [AFHTTPSessionManager manager];
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
-        [manager.requestSerializer setValue:@"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLmsLjov5zmmbTlpKkiLCJhdmF0YXJVcmwiOiJodHRwczovL3RoaXJkd3gucWxvZ28uY24vbW1vcGVuL3ZpXzMyL2trZzRXVkZwbGdPb3J5TlNNaWJWa3IwaksybXJPQ3lVU0pYWFVRdjRMeko2eFRXTVhoWFdzc2huYzBLR1RUVGdrRzZCa1lPMWRCaWNpY2FaR0JVbHBLYXNnLzEzMiIsIm9wZW5pZCI6Im9zWDNjNHVIaXRYSDNMZDJfRG96X2xPZm9qbzAiLCJpc3MiOiJERVNLVE9QLUc4TTQyNTIiLCJzZXNzaW9uX2tleSI6ImhzR2d2UHVwY3pJRmg3QjExSHFUZ2c9PSIsImV4cCI6MTYxMDY5NzM5NzUxNCwiaWF0IjoxNjEwNjkwMTk3NTE0LCJqdGkiOjEzNDk5NTg1ODE3MTg3MjA1MTR9.rX1hxdNlubpHlNwQW5gzu56VSlsap6yldmkfhamC72-ZTptPwhL3BRxRnX02sIltJdAy31swHLhLJFSH7BYjRg" forHTTPHeaderField:@"Authorization"];
+        [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] stringForKey:@"ChindleToken"] forHTTPHeaderField:@"Authorization"];
         //Authentication Authorization
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/x-www-form-urlencoded",@"text/html",@"text/plain", nil];
         manager.requestSerializer.timeoutInterval = 8;

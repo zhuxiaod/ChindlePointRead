@@ -88,21 +88,16 @@
     contentView.cornerRadius = tesAuto(10);
     [self addSubview:contentView];
     
-    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
-        make.top.equalTo(self).offset(tesAuto(95));
-        make.width.mas_equalTo(tesAuto(232));
-        make.height.mas_equalTo(tesAuto(220) * [self verticalMultiple]);
-    }];
+   
     
     UIImageView *topTitleImgView = [[UIImageView alloc] initWithImage:[UIImage mainResourceImageNamed:@"learn_bg_congrats"]];
     topTitleImgView.contentMode = UIViewContentModeCenter;
     [self addSubview:topTitleImgView];
     
     [topTitleImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(contentView.mas_top).offset(-tesAuto(85)/2);
+        make.top.equalTo(contentView.mas_top).offset(-tesAuto(85) / 2* [self verticalMultiple]);
         make.centerX.equalTo(self);
-        make.width.mas_equalTo(tesAuto(212));
+        make.width.mas_equalTo([self horizontalMultiple:tesAuto(212)]);
         make.height.mas_equalTo(tesAuto(85) * [self verticalMultiple]);
     }];
     
@@ -128,36 +123,48 @@
     [contentView addSubview:doneImgView];
     
     [doneImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.centerX.equalTo(contentView);
+        make.top.equalTo(detailLab.mas_bottom).offset(tesAuto(10) * [self verticalMultiple]);
+        make.centerX.equalTo(contentView);
         make.width.mas_equalTo([self horizontalMultiple:tesAuto(130)]);
         make.height.mas_equalTo(tesAuto(96) * [self verticalMultiple]);
     }];
     
-    UIButton *oKButton = [UIButton creatCustomButtonWithTitle:@"留在此课" titleColor:[UIColor AppOrangeColor] fontSize:tRealFontSize(14)];
+    UIButton *oKButton = [UIButton creatCustomButtonWithTitle:@"我还想上1V1英语课程" titleColor:[UIColor AppWhiteColor] fontSize:tRealFontSize(14)];
     _oKButton = oKButton;
     oKButton.cornerRadius = tesAuto(15) * [self verticalMultiple];
     oKButton.borderColor = [UIColor AppOrangeColor];
+    oKButton.backgroundColor = [UIColor AppOrangeColor];
     oKButton.borderWidth = 1.0f;
     [contentView addSubview:oKButton];
     
     [oKButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(contentView).offset([self horizontalMultiple:tesAuto(16)]);
-        make.bottom.equalTo(contentView).offset(-tesAuto(16) * [self verticalMultiple]);
-        make.width.mas_equalTo([self horizontalMultiple:tesAuto(94)]);
+        make.top.equalTo(doneImgView.mas_bottom).offset(tesAuto(10) * [self verticalMultiple]);
+        make.right.equalTo(contentView).offset(-[self horizontalMultiple:tesAuto(31)]);
+        make.left.equalTo(contentView).offset([self horizontalMultiple:tesAuto(31)]);
         make.height.mas_equalTo(tesAuto(30) * [self verticalMultiple]);
     }];
     
-    UIButton *goBackButton = [UIButton creatCustomButtonWithTitle:@"再来一课" titleColor:[UIColor AppWhiteColor] fontSize:tRealFontSize(14)];
+    UIButton *goBackButton = [UIButton creatCustomButtonWithTitle:@"再来一课" titleColor:[UIColor AppOrangeColor] fontSize:tRealFontSize(14)];
     _goBackButton = goBackButton;
     goBackButton.cornerRadius = tesAuto(15) * [self verticalMultiple];
-    goBackButton.backgroundColor = [UIColor AppOrangeColor];
+    goBackButton.backgroundColor = [UIColor AppWhiteColor];
+    goBackButton.borderColor = [UIColor AppOrangeColor];
+    goBackButton.borderWidth = 1.0f;
     [contentView addSubview:goBackButton];
     
     [goBackButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(contentView).offset([self horizontalMultiple:-tesAuto(16)]);
-        make.bottom.equalTo(contentView).offset(-tesAuto(16) * [self verticalMultiple]);
-        make.width.mas_equalTo([self horizontalMultiple:tesAuto(94)]);
+        make.top.equalTo(oKButton.mas_bottom).offset(tesAuto(10) * [self verticalMultiple]);
+        make.right.equalTo(contentView).offset(-[self horizontalMultiple:tesAuto(31)]);
+        make.left.equalTo(contentView).offset([self horizontalMultiple:tesAuto(31)]);
         make.height.mas_equalTo(tesAuto(30) * [self verticalMultiple]);
+    }];
+    
+    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.top.equalTo(self).offset([self horizontalMultiple:tesAuto(95)]);
+        make.width.mas_equalTo([self horizontalMultiple:tesAuto(232)]);
+        make.bottom.equalTo(goBackButton.mas_bottom).offset(tesAuto(16) * [self verticalMultiple]);
+//        make.height.mas_equalTo(tesAuto(220) * [self verticalMultiple]);
     }];
 }
 
@@ -165,6 +172,7 @@
     WeakifySelf()
     [_oKButton tes_addTouchUpInsideBlock:^(UIButton * _Nonnull btn) {
         [weakSelf removeFromSuperview];
+        if(weakSelf.jumpTes)weakSelf.jumpTes();
     }];
     
     [_goBackButton tes_addTouchUpInsideBlock:^(UIButton * _Nonnull btn) {

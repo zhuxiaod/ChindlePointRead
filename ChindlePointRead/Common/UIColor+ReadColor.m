@@ -26,7 +26,7 @@
 }
 
 +(UIColor *)AppMainColor{
-    return [UIColor colorWithHexString:@"#1190FF"];
+    return [UIColor colorWithHexString:@"#FF4242"];
 }
 
 +(UIColor *)AppWhiteColor{
@@ -53,8 +53,8 @@
     return [UIColor colorWithHexString:@"#666666"];
 }
 
-//#999999
-+(UIColor *)AppLoginTextColor{
+/// #999999
++(UIColor *)AppDarkGreyColor{
     return [UIColor colorWithHexString:@"#999999"];
 }
 
@@ -62,7 +62,7 @@
     return [UIColor colorWithHexString:@"#CCCCCC"];
 }
 
-//
+/// #33333
 +(UIColor *)AppLabBlackColor{
     return [UIColor colorWithHexString:@"#333333"];
 }
@@ -116,7 +116,7 @@
 
 #pragma mark - 文字颜色
 +(UIColor *)AppDarkGrayColor{
-    return [UIColor colorWithHexString:@"#222325"];
+    return [UIColor colorWithHexString:@"#999999"];
 }
 
 +(UIColor *)AppTextGrayColor{

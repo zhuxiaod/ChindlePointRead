@@ -46,15 +46,19 @@
 
 #ifdef DEBUG
 
+NSString *const qmp_host = @"http://10.204.42.139:9080/appletServer";
+
+#elif DEBUGTEST
+
 NSString *const qmp_host = @"https://starter.usongshu.com/appletServer";
 
-#elif INTERNAL
+#elif DEBUGFORMAL
 
-NSString *const qmp_host = @"INTERNAL";
+NSString *const qmp_host = @"https://starter.usongshu.com/appletServer";
 
 #else
 
-NSString *const qmp_host = @"appstore";
+NSString *const qmp_host = @"https://starter.usongshu.com/appletServer";
 
 #endif
 

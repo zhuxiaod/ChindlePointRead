@@ -30,6 +30,7 @@
 - (CGFloat)bookViewH{
     
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        NSLog(@"%f", kScreenWidth - tesAuto(78));
         return kScreenWidth - tesAuto(78);
     }
     return tesAuto(300);

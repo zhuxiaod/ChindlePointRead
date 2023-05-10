@@ -13,6 +13,8 @@ typedef void(^GoBackLastVC)(void);
 
 @interface QMPImageLearnEndView : UIView
 @property(nonatomic,copy) GoBackLastVC goBackLastVC;
+@property(nonatomic,copy) GoBackLastVC jumpTes;
+
 @end
 
 NS_ASSUME_NONNULL_END

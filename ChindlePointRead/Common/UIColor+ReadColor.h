@@ -41,9 +41,9 @@ typedef NS_ENUM(NSInteger, XDGradientChangeDirection) {
 +(UIColor *)AppPageTitleColor;
 
 +(UIColor *)AppGrayTitleColor;
-
-+(UIColor *)AppLoginTextColor;
-
+/// #999999
++(UIColor *)AppDarkGreyColor;
+/// #33333
 +(UIColor *)AppLabBlackColor;
 
 +(UIColor *)AppPinkColor;

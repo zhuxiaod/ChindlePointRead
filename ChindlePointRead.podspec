@@ -43,6 +43,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'FDFullscreenPopGesture'
   spec.dependency 'SDWebImage'
   spec.dependency 'SVProgressHUD'
+  spec.dependency 'ChindleShareKit'
 
   spec.prefix_header_contents = 
   '#import "ChindlePointRead.h"',
@@ -54,8 +55,8 @@ Pod::Spec.new do |spec|
   '#import <YYKit/YYKit.h>',
   '#import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>',
   '#import <SDWebImage/SDWebImage.h>',
+  '#import <ChindleShareKit/ChindleShareKit.h>',
   '#import <SVProgressHUD/SVProgressHUD.h>'
-
   spec.requires_arc = true
 
   # 开放的库资源文件 - 有资源则需要打开这里的注释

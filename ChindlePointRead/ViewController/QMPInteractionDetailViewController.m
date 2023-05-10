@@ -9,6 +9,10 @@
 #import "QMPInteractionDetailView.h"
 #import "QMPImageLearnDeskView.h"
 #import "QMPImageLearnEndView.h"
+#import "QMPBookModel.h"
+#import "AppShareView.h"
+#import "ShareQRCodeView.h"
+#import <ChindleShareKit/ChindleShareKit.h>
 
 @interface QMPInteractionDetailViewController ()
 @property(nonatomic,strong)QMPInteractionDetailView *interactionDetailView;
@@ -26,6 +30,14 @@
 @property(nonatomic,strong)NSMutableArray *imageLearnPageArray;
 @property(nonatomic,strong)NSTimer *timer;
 @property(nonatomic,assign)NSInteger timerSecond;
+
+@property(nonatomic,assign)BOOL isOrientation;
+@property(nonatomic,strong)QMPLessonModel *baseModel;
+@property (nonatomic, strong) UIButton *backBtn;
+@property (nonatomic, strong) ShareQRCodeView *codeView;
+@property (nonatomic, strong) AppShareView *shareView;
+
+@property(nonatomic,assign)BOOL isEnterMain;
 
 @end
 
@@ -45,17 +57,35 @@
     return _interactionDetailView;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+-(instancetype)initWithOrientations:(BOOL)isOrientation lessonModel:(QMPLessonModel *)lessonModel isEnterMain:(BOOL)isEnterMain{
+
+    QMPInteractionDetailViewController *vc = [[QMPInteractionDetailViewController alloc] init];
+    vc.baseModel = lessonModel;
+    vc.isOrientation = isOrientation;
+    vc.isEnterMain = isEnterMain;
+
+    return vc;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.totalCount = 0;
-
     self.fd_interactivePopDisabled = YES;
     
     self.fd_prefersNavigationBarHidden = YES;
+    
+    if(self.isOrientation == YES) {
+        
+        [self setupInterfaceOrientations];
+        
+    }else{
+        
+        [self setupApp];
+    }
+    
+}
+
+-(void)setupApp{
     
     [self setupUI];
     
@@ -63,12 +93,23 @@
 
     [self setupBackBtn];
 
+    [self setupShareBtn];
+    
     [self setupTimer];
 
 }
 
+#pragma mark - 设置横屏
+-(void)setupInterfaceOrientations{
+
+    [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:true viewController:self];
+    
+}
+
 -(void)setupBackBtn{
+    
     UIButton *backBtn = [UIButton creatButtonWithBGImg:[UIImage mainResourceImageNamed:@"home_backBtn"]];
+    _backBtn = backBtn;
     [self.view addSubview:backBtn];
     
     [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,13 +125,106 @@
     
 }
 
+-(void)setupShareBtn{
+    
+    UIButton *backBtn = [UIButton creatButtonWithBGImg:[UIImage mainResourceImageNamed:@"home_shareBtn"]];
+    [self.view addSubview:backBtn];
+    
+    [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.backBtn);
+        make.right.equalTo(self.view).offset(-tesAuto(26));
+        make.height.width.mas_equalTo(tesAuto(32));
+    }];
+    
+    WeakifySelf();
+    [backBtn addTarget:self
+                action:@selector(shareCourse)
+      forControlEvents:(UIControlEventTouchUpInside)];
+    
+}
+
 -(void)goBack{
     
     [self.navigationController popViewControllerAnimated:YES];
     
+    if(self.isOrientation == YES){
+        
+        [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:NO viewController:self];
+    }
+    
+}
+
+-(void)shareCourse{
+    
+    AppShareView *shareView = [[AppShareView alloc] init];
+    _shareView = shareView;
+    [self.view addSubview:shareView];
+    
+    [shareView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    shareView.shareBlock = ^(NSInteger tag) {
+        
+#if !(TARGET_IPHONE_SIMULATOR)
+
+        UIImage *image = [self.codeView snapshot];
+        
+        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+        //wx
+        if(tag == 101){
+            
+            [[ChindleShareManager shareInstance] oc_sendImageWithData:imageData title:@"" description:@"" platform:0];
+            
+        }else if (tag == 102){//moment
+            
+            [[ChindleShareManager shareInstance] oc_sendImageWithData:imageData title:@"" description:@"" platform:1];
+
+        }else{//creat
+            
+            //保存到本地
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+
+        }
+        
+        [self.shareView removeFromSuperview];
+#endif
+        
+        
+    };
+    
+    //显示分享
+    CGFloat height = kScreenWidth - tesAuto(120) - tesAuto(40);
+    
+    //iPhone 375 510
+    ShareQRCodeView *codeView = [[ShareQRCodeView alloc] init];
+    _codeView = codeView;
+    codeView.backgroundColor = [UIColor redColor];
+    CGFloat width = 375 * height / 510;
+    
+    [shareView.contentView addSubview:codeView];
+    
+    [codeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.centerY.equalTo(shareView.contentView);
+        make.height.mas_equalTo(height);
+        make.width.mas_equalTo(width);
+    }];
+    
+    if(self.imageLearnPageArray.count > 0){
+        
+        QMPImageLearnPageModel *model = self.imageLearnPageArray[0];
+        
+        [codeView.coverView sd_setImageWithURL:[NSURL URLWithString:model.url]];
+    }
+        
+    [codeView setCourseName:self.lessonModel.name];
 }
 
 -(void)setupUI{
+    
+    self.totalCount = 0;
+
+    self.lessonModel = self.baseModel;
     
     //标题  按钮
     [self.view addSubview:self.interactionDetailView];
@@ -189,6 +323,23 @@
     
     WeakifySelf();
     imageLearnEndView.goBackLastVC = ^{
+        
+        [self loadProgress];
+
+        //直接进入下一课
+        if(self.isEnterMain == YES){
+            
+            return;
+        }
+        
+        [weakSelf.navigationController popViewControllerAnimated:YES];
+    };
+    
+    imageLearnEndView.jumpTes = ^{
+        
+        //直接webView
+        UIViewController *vc = [[UIViewController alloc] init];
+        
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };
     
@@ -212,6 +363,8 @@
     self.imageLearnDeskView.playImageLearnItemVoiceBlock = ^(QMPImageLearnItemModel * _Nonnull itemModel) {
         [[TESPlayer shareManager] playFromURLString:itemModel.voice];
     };
+    
+    
 }
 
 #pragma mark - 接口
@@ -248,6 +401,7 @@
 
 #pragma mark - 结束学习
 -(void)postImageLearnEndRequest{
+    
     [QMPRequestManager postImageLearnDoneRequest:_lessonModel.lessonId];
 }
 
@@ -372,5 +526,69 @@
 //    NSLog(@"self.timerSecond:%ld",self.timerSecond);
 }
 
+-(void)loadProgress{
+    
+    [QMPRequestManager POST:@"/student/progress" parameters:nil success:^(id  _Nonnull responseObject) {
+        
+        if(self.isEnterMain == NO)return;
+        
+        //跳转下一课
+        QMPRequestModel *requestModel = [QMPRequestModel initRequestModelWithResponseObject:responseObject];
+        NSDictionary *lessonProgress = requestModel.responseObject[@"data"][@"lessonProgress"];
+
+        QMPPLessonProgressModel *model = [QMPPLessonProgressModel mj_objectWithKeyValues:lessonProgress];
+
+        QMPLessonModel *lessonModel = [[QMPLessonModel alloc] init];
+        lessonModel.lessonId = model.nextLessonID;
+        lessonModel.name = model.nextLessonName;
+
+        [self setLessonModel:lessonModel];
+        
+        [self.imageLearnEndView removeFromSuperview];
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
+    
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    BOOL isLaunchScreen = NO;
+    NSLog(@"view 发生改变:%@", NSStringFromCGSize(size));
+    
+    if (@available(iOS 16.0, *)) {
+        NSArray *array = [[[UIApplication sharedApplication] connectedScenes] allObjects];
+        UIWindowScene *scene = [array firstObject];
+        isLaunchScreen = scene.interfaceOrientation == UIInterfaceOrientationLandscapeRight;
+    } else {
+        isLaunchScreen = [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft;
+    }
+    NSLog(@"将要%@", isLaunchScreen ? @"横屏" : @"竖屏");
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(beginChange:) object:nil];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    param[@"isLaunchScreen"] = @(isLaunchScreen);
+    [self performSelector:@selector(beginChange:) withObject:param afterDelay:0.25];
+    
+}
+
+- (void)beginChange:(NSDictionary *)param {
+    
+    BOOL isLaunchScreen = [[param objectForKey:@"isLaunchScreen"] boolValue];
+    
+    if(isLaunchScreen != YES){
+        
+        
+        
+    }else{
+        
+        NSLog(@"横屏");
+        
+        [self setupApp];
+    }
+}
 
 @end

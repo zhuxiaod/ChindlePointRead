@@ -14,11 +14,12 @@
 #import <MJExtension/MJExtension.h>
 #import <Masonry/Masonry.h>
 #import <ChindleKit/ChindleBaseKit.h>
+#import <UIKit/UIKit.h>
+
 #import <YYKit/YYKit.h>
 #import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
 #import <SDWebImage/SDWebImage.h>
 #import <SVProgressHUD/SVProgressHUD.h>
-
 
 #import "QMPImageLearnModel.h"
 #import "QMPBookModel.h"
@@ -36,11 +37,17 @@
 #import "QMPInteractionDetailViewController.h"
 #import "QMPRequestManager.h"
 #import "TESPlayer.h"
-
+#import "TESAdapter.h"
 #import "QMPCommonTools.h"
 #import "UILabel+Extension.h"
 #import "UIView+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIImage+ResourceLoad.h"
+#import "QMPRequestModel.h"
+#import "QMPPLessonProgressModel.h"
+
+#import <ChindleShareKit/ChindleShareKit-Swift.h>
+#import <ChindleShareKit/ChindleShareKit.h>
+#import <ChindleShareKit/ChindleShareKit-umbrella.h>
 
 #endif /* ChindlePointRead__h */
