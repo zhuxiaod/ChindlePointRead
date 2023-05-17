@@ -39,6 +39,10 @@
 -(void)handleResponseObjectWithResultCode:(void(^)(id resultData))complete{
     if(self.resultCode == 200){
         complete(self.resultData);
+    }else if(self.resultCode == 401){
+        
+        //跳出登录
+        
     }else{
         if(self.resultCode == -1){//跳转到注册
 //            [TRequestManager exitAccountAndReminderWithError:[[NSError alloc] init]];

@@ -50,7 +50,7 @@ NSString *const qmp_host = @"http://10.204.42.139:9080/appletServer";
 
 #elif DEBUGTEST
 
-NSString *const qmp_host = @"https://starter.usongshu.com/appletServer";
+NSString *const qmp_host = @"https://test.usongshu.com/appletServer";
 
 #elif DEBUGFORMAL
 

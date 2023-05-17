@@ -138,7 +138,7 @@
     }];
     
     UIButton *cancelBtn = [[UIButton alloc] init];
-    [cancelBtn setBackgroundImage:[UIImage imageNamed:@"home_close_bg"] forState:UIControlStateNormal];
+    [cancelBtn setBackgroundImage:[UIImage mainResourceImageNamed:@"endView_close"] forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(removeView) forControlEvents:(UIControlEventTouchUpInside)];
     [shareContentView addSubview:cancelBtn];
 

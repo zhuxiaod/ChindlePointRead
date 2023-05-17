@@ -44,6 +44,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'SDWebImage'
   spec.dependency 'SVProgressHUD'
   spec.dependency 'ChindleShareKit'
+  spec.dependency 'ChindleKit'
 
   spec.prefix_header_contents = 
   '#import "ChindlePointRead.h"',
@@ -57,6 +58,7 @@ Pod::Spec.new do |spec|
   '#import <SDWebImage/SDWebImage.h>',
   '#import <ChindleShareKit/ChindleShareKit.h>',
   '#import <SVProgressHUD/SVProgressHUD.h>'
+  '#import <ChindleKit/ChindleBaseKit.h>'
   spec.requires_arc = true
 
   # 开放的库资源文件 - 有资源则需要打开这里的注释

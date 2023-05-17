@@ -34,8 +34,8 @@
         coverView.backgroundColor = [UIColor AppLabBlackColor];
         [bannerView addSubview:coverView];
         
-        coverView.cornerRadius = 8;
-        
+        coverView.cornerRadius = 8 * viewWidth / 375;
+
         CGFloat coverViewTop = 90.5 * viewWidth / 375;
         CGFloat coverViewleft = 26 * viewWidth / 375;
         CGFloat coverViewW = 323 * viewWidth / 375;
@@ -74,7 +74,17 @@
         CGFloat codeViewWH = 65 * viewWidth / 375;
 
         UIImageView *codeView = [[UIImageView alloc] init];
-        codeView.backgroundColor = [UIColor AppLabBlackColor];
+
+#ifdef DEBUGFORMAL || APPSTORE
+
+        codeView.image = [UIImage mainResourceImageNamed:@"xianwShareUrl"];
+
+#else
+
+        codeView.image = [UIImage mainResourceImageNamed:@"testShareUrl"];
+
+#endif
+
         [self addSubview:codeView];
         
         [codeView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -88,8 +98,13 @@
 
 // 3. 实现截图方法
 - (UIImage *)snapshot {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0.0);
-    [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:NO];
+    CGFloat scale = 2.0;
+    CGSize size = self.bounds.size;
+    
+    //计算一个倍数
+    CGFloat percent = 750 / size.width;
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width * percent, size.height * percent), self.opaque, scale);
+    [self drawViewHierarchyInRect:CGRectMake(0, 0, size.width * percent, size.height * percent) afterScreenUpdates:NO];
     UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return snapshotImage;

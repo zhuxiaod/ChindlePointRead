@@ -49,5 +49,5 @@
 #import <ChindleShareKit/ChindleShareKit-Swift.h>
 #import <ChindleShareKit/ChindleShareKit.h>
 #import <ChindleShareKit/ChindleShareKit-umbrella.h>
-
+#import <ChindleKit/ChindleBaseKit.h>
 #endif /* ChindlePointRead__h */

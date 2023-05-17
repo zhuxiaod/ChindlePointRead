@@ -72,6 +72,8 @@
 
     blackView.backgroundColor = [[UIColor colorWithHexString:@"#000000"] colorWithAlphaComponent:0.2];
     
+    [blackView addTarget:self action:@selector(closeView) forControlEvents:(UIControlEventTouchUpInside)];
+    
     UIImageView *lightImgView = [[UIImageView alloc] initWithImage:[UIImage mainResourceImageNamed:@"learn_bg_light_y"]];
     lightImgView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:lightImgView];
@@ -178,5 +180,10 @@
     [_goBackButton tes_addTouchUpInsideBlock:^(UIButton * _Nonnull btn) {
         if(weakSelf.goBackLastVC)weakSelf.goBackLastVC();
     }];
+}
+
+-(void)closeView{
+    
+    [self removeFromSuperview];
 }
 @end

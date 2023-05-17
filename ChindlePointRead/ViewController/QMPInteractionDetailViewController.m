@@ -13,6 +13,7 @@
 #import "AppShareView.h"
 #import "ShareQRCodeView.h"
 #import <ChindleShareKit/ChindleShareKit.h>
+#import "VerticalWebViewController.h"
 
 @interface QMPInteractionDetailViewController ()
 @property(nonatomic,strong)QMPInteractionDetailView *interactionDetailView;
@@ -38,6 +39,8 @@
 @property (nonatomic, strong) AppShareView *shareView;
 
 @property(nonatomic,assign)BOOL isEnterMain;
+//是否可执行旋转
+@property(nonatomic,assign)BOOL isPerformRotation;
 
 @end
 
@@ -69,6 +72,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.isPerformRotation = YES;
     
     self.fd_interactivePopDisabled = YES;
     
@@ -336,11 +341,21 @@
     };
     
     imageLearnEndView.jumpTes = ^{
+
         
-        //直接webView
-        UIViewController *vc = [[UIViewController alloc] init];
         
-        [weakSelf.navigationController popViewControllerAnimated:YES];
+        VerticalWebViewController *vc = [[VerticalWebViewController alloc] init];
+        vc.requestURL = [NSURL URLWithString:@"https://www.talk915.com/j/talk915?from=aiTest"];
+        [vc setProgressViewTintColor:[UIColor AppMainColor]];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+        vc.landscapeBlock = ^{
+            
+            [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:true viewController:self];
+            
+            //旋转不执行
+            self.isPerformRotation = NO;
+        };
     };
     
     //学习结束
@@ -587,7 +602,14 @@
         
         NSLog(@"横屏");
         
-        [self setupApp];
+        if(self.isPerformRotation == YES) {
+            [self setupApp];
+        }else{
+            
+            self.isPerformRotation = YES;
+        }
+       
+        
     }
 }
 

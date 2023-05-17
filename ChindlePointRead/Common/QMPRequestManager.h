@@ -38,6 +38,8 @@ parameters:(id)parameters
 
 /************************** Zxd *******************************/
 
++ (AFHTTPSessionManager *)manager;
+
 /// 获取书列表
 +(void)getBookListRequest:(void(^)(NSArray *bookList))success;
 
