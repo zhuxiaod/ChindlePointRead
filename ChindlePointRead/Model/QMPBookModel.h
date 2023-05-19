@@ -27,16 +27,21 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 //课程
-@interface QMPLessonModel : NSObject
-@property (nonatomic, copy) NSString *unitId;
-@property (nonatomic, copy) NSString *createBy;
-@property (nonatomic, copy) NSString *updateTime;
-@property (nonatomic, copy) NSString *lessonId;
-@property (nonatomic, copy) NSString *updateBy;
-@property (nonatomic, copy) NSString *orderNum;
-@property (nonatomic, copy) NSString *cover;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *createTime;
+@interface QMPLessonModel :NSObject
+@property (nonatomic , copy) NSString              * orderNum;
+@property (nonatomic , copy) NSString              * unitId;
+@property (nonatomic , copy) NSString              * updateTime;
+@property (nonatomic , copy) NSString              * updateBy;
+@property (nonatomic , copy) NSString              * bookCover;
+@property (nonatomic , copy) NSString              * bookName;
+@property (nonatomic , copy) NSString              * bookId;
+@property (nonatomic , copy) NSString              * deleted;
+@property (nonatomic , copy) NSString              * createTime;
+@property (nonatomic , copy) NSString              * cover;
+@property (nonatomic , copy) NSString              * lessonId;
+@property (nonatomic , copy) NSString              * name;
+@property (nonatomic , copy) NSString              * createBy;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -221,8 +221,8 @@
         
         [codeView.coverView sd_setImageWithURL:[NSURL URLWithString:model.url]];
     }
-        
-    [codeView setCourseName:self.lessonModel.name];
+
+    [codeView setCourseName:[NSString stringWithFormat:@"%@ %@",self.lessonModel.bookName, self.lessonModel.name]];
 }
 
 -(void)setupUI{
@@ -557,10 +557,13 @@
         lessonModel.lessonId = model.nextLessonID;
         lessonModel.name = model.nextLessonName;
 
+        [self.imageLearnEndView removeFromSuperview];
+        [self.imageLearnPageArray removeAllObjects];
+        
         [self setLessonModel:lessonModel];
         
-        [self.imageLearnEndView removeFromSuperview];
-        
+
+
     } failure:^(NSError * _Nonnull error) {
         
     }];

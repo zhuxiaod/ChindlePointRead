@@ -54,19 +54,20 @@
         UILabel *courseNameLab = [[UILabel alloc] init];
         _courseNameLab = courseNameLab;
         courseNameLab.numberOfLines = 2;
+        courseNameLab.lineBreakMode = NSLineBreakByCharWrapping;
         courseNameLab.font = [UIFont boldSystemFontOfSize:fontSize];
         courseNameLab.textColor = [UIColor AppLabBlackColor];
         [bannerView addSubview:courseNameLab];
         
-        CGFloat courseNameLabTop = 37 * viewWidth / 375;
+        CGFloat courseNameLabTop = 34 * viewWidth / 375;
         CGFloat courseNameLabLeft = 32.5 * viewWidth / 375;
-        CGFloat courseNameLabHeight = 41 * viewWidth / 375;
+        CGFloat courseNameLabHeight = 43 * viewWidth / 375;
         
         [courseNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(coverView.mas_bottom).offset(courseNameLabTop);
             make.left.equalTo(bannerView).offset(courseNameLabLeft);
             make.right.equalTo(bannerView).offset(-courseNameLabLeft);
-            make.height.mas_equalTo(courseNameLabHeight);
+//            make.height.mas_equalTo(courseNameLabHeight);
         }];
 
         CGFloat codeViewRight = 35 * viewWidth / 375;
