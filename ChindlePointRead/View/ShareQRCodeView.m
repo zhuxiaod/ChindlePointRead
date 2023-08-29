@@ -54,7 +54,7 @@
         UILabel *courseNameLab = [[UILabel alloc] init];
         _courseNameLab = courseNameLab;
         courseNameLab.numberOfLines = 2;
-        courseNameLab.lineBreakMode = NSLineBreakByCharWrapping;
+        courseNameLab.lineBreakMode = NSLineBreakByTruncatingTail;
         courseNameLab.font = [UIFont boldSystemFontOfSize:fontSize];
         courseNameLab.textColor = [UIColor AppLabBlackColor];
         [bannerView addSubview:courseNameLab];

@@ -157,7 +157,9 @@ static inline CGFloat tesAuto(CGFloat defaultLength) {
         NSLog(@"defaultLength:%f",defaultLength);
         return defaultLength;
     }
-    
+    NSLog(@"tScreenWidth:%f", tScreenWidth());
+    NSLog(@"defaultScreenWidth:%f", [TESAdapter shareAdapter].defaultScreenWidth);
+
     return tScreenWidth() / [TESAdapter shareAdapter].defaultScreenWidth * defaultLength;
 }
 

@@ -222,7 +222,7 @@
         [codeView.coverView sd_setImageWithURL:[NSURL URLWithString:model.url]];
     }
 
-    [codeView setCourseName:[NSString stringWithFormat:@"%@ %@",self.lessonModel.bookName, self.lessonModel.name]];
+    [codeView setCourseName:[NSString stringWithFormat:@"%@ - %@ - %@",self.lessonModel.bookName ,self.lessonModel.unitName, self.lessonModel.name]];
 }
 
 -(void)setupUI{

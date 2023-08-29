@@ -39,13 +39,13 @@
     
     NSString *requestString = [NSString stringWithFormat:@"%@/%@",qmp_host,URLString];
     
-    [[self manager] POST:requestString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[self manager] POST:requestString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [QMPRequestManager exitAccountAndReminderWithError:error];
-        
-
         failure(error);
+        
     }];
 }
 
@@ -54,7 +54,7 @@
     
     NSString *requestString = [NSString stringWithFormat:@"%@/%@",qmp_host,URLString];
     
-    [[self manager] GET:requestString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[self manager] GET:requestString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [QMPRequestManager exitAccountAndReminderWithError:error];
@@ -67,7 +67,7 @@
     
     NSString *requestString = [NSString stringWithFormat:@"%@/%@",qmp_host,URLString];
     
-    [[self manager] PUT:requestString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[self manager] PUT:requestString parameters:parameters headers:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [QMPRequestManager exitAccountAndReminderWithError:error];
