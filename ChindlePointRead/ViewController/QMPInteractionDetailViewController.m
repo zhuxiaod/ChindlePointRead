@@ -107,7 +107,7 @@
 #pragma mark - 设置横屏
 -(void)setupInterfaceOrientations{
 
-    [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:true viewController:self];
+    [[SwitchOrientationManager alloc] p_switchOrientationWithLaunchScreen:true viewController:self];
     
 }
 
@@ -154,7 +154,7 @@
     
     if(self.isOrientation == YES){
         
-        [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:NO viewController:self];
+        [[SwitchOrientationManager alloc] p_switchOrientationWithLaunchScreen:NO viewController:self];
     }
     
 }
@@ -351,7 +351,7 @@
         
         vc.landscapeBlock = ^{
             
-            [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:true viewController:self];
+            [[SwitchOrientationManager alloc] p_switchOrientationWithLaunchScreen:true viewController:self];
             
             //旋转不执行
             self.isPerformRotation = NO;

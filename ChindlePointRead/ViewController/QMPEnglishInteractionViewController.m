@@ -47,7 +47,7 @@
     
     [self.navigationController popViewControllerAnimated:YES];
     
-    [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:NO viewController:self];
+    [[SwitchOrientationManager alloc] p_switchOrientationWithLaunchScreen:NO viewController:self];
 
 }
 
@@ -81,7 +81,7 @@
 #pragma mark - 设置横屏
 -(void)setupInterfaceOrientations{
 
-    [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:true viewController:self];
+    [[SwitchOrientationManager alloc] p_switchOrientationWithLaunchScreen:true viewController:self];
     
 }
 

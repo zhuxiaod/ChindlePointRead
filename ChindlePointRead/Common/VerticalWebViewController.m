@@ -19,7 +19,7 @@
     
     [self setupRightShareBtn];
     
-    [[SwitchOrientationManager shareManager] p_switchOrientationWithLaunchScreen:NO viewController:self];
+    [[SwitchOrientationManager alloc] p_switchOrientationWithLaunchScreen:NO viewController:self];
 
 }
 
